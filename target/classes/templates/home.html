@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<section layout:fragment="conteudo">
+	
+	<div class="aw-layout-simple-page__container text-center" sec:authorize="hasRole('CLIENTE')">
+					
+		<form th:action="@{/instrutor/aluno/pesquisa}" method="POST">
+		
+			<div class="ik-panel-busca card-radius metal">
+				<img alt="Designer Fitness" th:src="@{/layout/imagens/logo-designer-lg.png}"/>
+				<h4 class="ik-message-white">Pesquisa de Fichas</h4>
+				
+				<div class="alert  alert-danger  alert-dismissible sombra" role="alert"
+						th:if="${not #strings.isEmpty(erro)}">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<span th:text="${erro}"></span>
+				</div>
+																
+				<div class="ik-panel-box">
+					<div class="form-group  has-feedback">
+						
+						<input type="number" th:name="codigoAluno" class="form-control input-xs" id="codigoAluno" placeholder="Seu código" 
+							autofocus="autofocus"/>
+						<span class="glyphicon  glyphicon-search  form-control-feedback"></span>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn  btn-primary  btn-lg  btn-block sombra-btn">Pesquisar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	
+	</div>
+		
+</section>
+</html>

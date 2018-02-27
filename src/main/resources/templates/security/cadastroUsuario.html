@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<section layout:fragment="conteudo">
+	<div class="panel panel-primary">
+		<div class="panel-heading sombra">
+			<h2 class="panel-title text-center"><strong>Cadastro de Usuários</strong></h2>
+		</div>
+		
+		<div class="panel-body">
+			<div class="container-fluid">
+
+				<th:block layout:insert="~{layout/fragmentos/alertas :: success}"></th:block>
+
+				<form method="post" class="form-vertical  js-form-loading"
+					th:object="${usuario}" th:action="@{/usuarios/novo}">
+					
+					<th:block layout:insert="~{layout/fragmentos/alertas :: validation}"></th:block>
+														
+					<input type="hidden" th:field="*{id}"/>
+					
+					<div class="col-xs-12 col-sm-1 col-md-1">
+						<div class="form-group" th:classappend="${#fields.hasErrors('email')} ? has-error">
+							<label class="input-group-addon control-label">E-mail</label>
+							<input id="email" type="text" 
+								class="form-control" th:field="*{email}" />
+						</div>
+					</div>
+					
+					<div class="col-xs-12 col-sm-3 col-md-3">
+						<div class="form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+							<label class="input-group-addon control-label">Nome</label>
+							<input id="nome" type="text" 
+								class="form-control upcase" th:field="*{nome}" />
+						</div>
+					</div>
+					
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<div class="form-group" th:classappend="${#fields.hasErrors('senha')} ? has-error">
+							<label class="input-group-addon control-label">Senha</label>
+							<input id="senha" type="password" contenteditable="true" class="form-control " th:field="*{senha}"/>
+						</div>
+					</div>
+																	
+					<div class="col-xs-12 col-sm-12 col-md-12">
+						<div class="form-group">
+							<button class="btn  btn-success pull-left sombra-btn" type="submit" title="Salvar Usuário" data-toggle="tooltip">Salvar</button>
+							<a class="btn btn-info pull-right sombra-btn" th:href="@{/usuarios}" title="voltar" data-toggle="tooltip"> 
+								<i class="fa  fa-reply"></i> 
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/layout/js/jquery.mask.min.js}"></script>
+	<script type="text/javascript">
+		$(".funcional").mask("00.000.000/0000-00");
+	</script>
+</th:block>
+</html>

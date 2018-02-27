@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<section layout:fragment="conteudo">
+	<div class="panel panel-primary">
+		<div class="panel-heading sombra">
+			<h2 class="panel-title text-center"><strong>Salas Cadastradas</strong>
+				<a  class="btn btn-info sombra-btn pull-right" style="margin:-8px -12px;" 
+					th:href="@{/salas/novo}" 
+					title="Novo" data-toggle="tooltip"
+					sec:authorize="hasRole('ADMINISTRADOR')"> 
+							<i class="fa  fa-fw  fa-plus"></i> 
+				</a>
+			</h2>		
+		</div>
+		<div class="panel-body">
+							
+			<th:block layout:insert="~{/layout/fragmentos/alertas :: success}"></th:block>
+			
+			<div class="col-xs-12">
+				
+					<th:block layout:insert="~{layout/fragmentos/pageable :: pageSelect ('/salas')}"></th:block>
+					
+					<div class="col-xs-6">
+						<form method="GET" class="form-horizontal" action="/salas" th:object="${filtro}" >
+				   			<div class="form-group">
+				   				<div class="col-xs-6 pull-right" style="margin:-8px -12px;">
+				   					<div class="input-group">
+				   						<input class="form-control" id="filtro" placeholder="sala"
+				   							autofocus="autofocus" th:field="*{nome}"></input>
+				   						<input type="hidden" name="pageSize"  th:value="${selectedPageSize}"/>
+				   						<span class="input-group-btn">
+				   							<button type="submit" class="btn btn-default">
+				   								<i class="glyphicon glyphicon-search"></i>
+				   							</button>
+				   						</span>
+				   					</div>
+				   				</div>
+				   			</div>
+				   		</form>
+		   			</div>
+	   			</div>
+								
+			<table	id="tabela-salas" class="table  table-striped  
+				table-bordered  table-hover  table-condensed responsive-table" data-page-length="10">
+				<thead class="aw-table-header-solid">
+					<tr>
+						<th>Sala</th>
+						<th>Tamanho(m&sup2;)</th>
+						<th>Andar</th>
+						<th>Situação</th>
+						<th class="ik-table-col-icons" sec:authorize="hasRole('ADMINISTRADOR')"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="sala : ${lista}">
+						<td class="text-center">
+							<a	th:href="@{/salas/{codigo}(codigo=${sala.codigo})}" th:text="${sala.nome}"></a>
+						</td>
+						<td class="text-center" th:text="${sala.tamanho}"></td>
+						<td class="text-center" th:text="${sala.andar}"></td>
+						<td class="text-center btn btn-block" th:text="${sala.situacao}" th:classappend="|${sala.situacao == 'Cedida' ? 'btn-warning':''} ${sala.situacao == 'Vazia' ? 'btn-success':''} ${sala.situacao == 'Alocada' ? 'btn-info':''}|"></td>
+						<td class="text-center" style="vertical-align: middle;" sec:authorize="hasRole('ADMINISTRADOR')">
+							<button type="button" class="btn btn-danger btn-xs btn-block btn-active">
+								<i	class="fa fa-trash"	style="cursor: pointer"	
+									data-toggle="modal"	
+									data-target="#confirmaExclusaoModal"
+									data:nome="${sala.nome}"
+									data:url-delete="@{/salas/{codigo}(codigo=${sala.codigo})}"
+									>
+								</i>
+							</button>
+						</td>
+					</tr>
+					<tr th:if="${lista.getTotalElements()==0}">
+							<td	colspan="4"	class="bg-danger">Nenhuma Sala cadastrado</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td	colspan="4"	class="bg-primary text-center">
+								<strong><span th:text="'Total de Registros: ' + ${lista.getTotalElements()}"></span></strong>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			<th:block layout:insert="~{layout/fragmentos/pageable :: pageControl ('/salas')}"></th:block>
+		</div>
+	<th:block layout:insert="~{layout/fragmentos/parts :: confirmaExclusao (@{/salas})}"></th:block>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/layout/js/pageable.js}"></script>
+	<script th:src="@{/layout/js/jquery.btechco.excelexport.js}"></script>
+	<script th:src="@{/layout/js/jquery.base64.js}"></script>
+	<script>
+	    $(document).ready(function () {
+	        $("#btnDownload").click(function () {
+	            $("#tabela-salas").btechco_excelexport({
+	                containerid: "tabela-salas"
+	               , datatype: $datatype.Table
+	               , filename: 'tabela-salas'
+	            });
+	        });
+	    });
+	</script>
+</th:block>
+</html>

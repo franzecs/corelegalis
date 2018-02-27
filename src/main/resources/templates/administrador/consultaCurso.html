@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<section layout:fragment="conteudo">
+	<div class="panel panel-primary">
+		<div class="panel-heading sombra">
+			<h2 class="panel-title text-center"><strong>Cursos Cadastrados</strong>
+				<a  class="btn btn-info sombra-btn pull-right" style="margin:-8px -12px;" 
+					th:href="@{/cursos/novo}" 
+					title="Novo" data-toggle="tooltip" data-placement="bottom"
+					sec:authorize="hasRole('ADMIN')"> 
+							<i class="fa  fa-fw  fa-plus"></i> 
+				</a>
+			</h2>		
+		</div>
+		<div class="panel-body">
+			<div class="container-fluid">
+				
+				<th:block layout:insert="~{/layout/fragmentos/alertas :: success}"></th:block>
+				
+				<div class="col-xs-12">
+				
+					<th:block layout:insert="~{layout/fragmentos/pageable :: pageSelect ('/cursos')}"></th:block>
+					
+					<div class="col-xs-6">
+						<form method="GET" class="form-horizontal" action="/cursos" th:object="${filtro}" >
+				   			<div class="form-group">
+				   				<div class="col-xs-6 pull-right" style="margin:-8px -12px;">
+				   					<div class="input-group">
+				   						<input class="form-control" id="filtro" placeholder="Nome do Curso"
+				   							autofocus="autofocus" th:field="*{nome}"></input>
+				   						<input type="hidden" name="pageSize"  th:value="${selectedPageSize}"/>
+				   						<span class="input-group-btn">
+				   							<button type="submit" class="btn btn-default">
+				   								<i class="glyphicon glyphicon-search"></i>
+				   							</button>
+				   						</span>
+				   					</div>
+				   				</div>
+				   			</div>
+				   		</form>
+		   			</div>
+	   			</div>
+									
+				<table	id="tabela-cursos" class="table  table-striped  
+					table-bordered  table-hover  table-condensed table-reflow">
+					<thead class="aw-table-header-solid">
+						<tr>
+							<th class="ik-table-col-descricao">Nome</th>
+							<th>Coordenação</th>
+							<th class="ik-table-col-codigo">IES</th>
+							<th class="ik-table-col-icons" sec:authorize="hasRole('ADMIN')"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="curso : ${lista}">
+							<td>
+								<a	th:href="@{/cursos/{codigo}(codigo=${curso.id})}" th:text="${curso.nome}"
+									data-toggle="tooltip" data-placement="bottom" 
+									th:attr="title=${curso.coordenador}"></a>
+							</td>
+							<td>
+								<button type="button" class="btn btn-danger"
+									data-toggle="tooltip" data-placement="bottom" 
+									th:attr="title=${curso.horarioseg}" th:if="${not #strings.isEmpty(curso.horarioseg)}">SEG</button>
+								<button type="button" class="btn btn-success"
+									data-toggle="tooltip" data-placement="bottom" 
+									th:attr="title=${curso.horarioter}" th:if="${not #strings.isEmpty(curso.horarioter)}">TER</button>
+								<button type="button" class="btn btn-info"
+									data-toggle="tooltip" data-placement="bottom" 
+									th:attr="title=${curso.horarioqua}" th:if="${not #strings.isEmpty(curso.horarioqua)}">QUA</button>
+								<button type="button" class="btn btn-primary"
+									data-toggle="tooltip" data-placement="bottom" 
+									th:attr="title=${curso.horarioqui}" th:if="${not #strings.isEmpty(curso.horarioqui)}">QUI</button>
+								<button type="button" class="btn btn-warning"
+									data-toggle="tooltip" data-placement="bottom" 
+									th:attr="title=${curso.horariosex}" th:if="${not #strings.isEmpty(curso.horariosex)}">SEX</button>
+							</td>
+							<td th:text="${curso.faculdade.sigla}"></td>
+							<td class="text-center" style="vertical-align: middle;" sec:authorize="hasRole('ADMIN')">
+								<button type="button" class="btn btn-danger btn-xs btn-block btn-active" >
+									<i	class="fa fa-trash"	style="cursor: pointer"	
+										data-toggle="modal"	
+										data-target="#confirmaExclusaoModal"
+										data:nome="${curso.nome}"
+										data:url-delete="@{/cursos/{codigo}(codigo=${curso.id})}">
+									</i>
+								</button>
+							</td>
+						</tr>
+						<tr th:if="${lista.getTotalElements()==0}">
+							<td	colspan="4"	class="bg-danger">Nenhum Curso cadastrado</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td	colspan="4"	class="bg-primary text-center">
+								<strong><span th:text="'Total de Registros: ' + ${lista.getTotalElements()}"></span></strong>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			<th:block layout:insert="~{layout/fragmentos/pageable :: pageControl ('/cursos')}"></th:block>
+		</div>
+	</div>
+	<th:block layout:insert="~{layout/fragmentos/parts :: confirmaExclusao (@{/cursos})}"></th:block>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/layout/js/pageable.js}"></script>
+	<script th:src="@{/layout/js/jquery.btechco.excelexport.js}"></script>
+	<script th:src="@{/layout/js/jquery.base64.js}"></script>
+	<script>
+	    $(document).ready(function () {
+	        $("#btnDownload").click(function () {
+	            $("#tabela-cursos").btechco_excelexport({
+	                containerid: "tabela-cursos"
+	               , datatype: $datatype.Table
+	               , filename: 'tabela-cursos'
+	            });
+	        });
+	    });
+	</script>
+</th:block>
+</html>

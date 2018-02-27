@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head></head>
+<body>
+	<nav class="aw-menu  js-menu " layout:fragment="menu">
+		<div class="user">
+			<img alt="user"
+				class="user-img img-circle img-thumbnail pull-left sombra"
+				th:src="@{/layout/imagens/user.png}" />
+			<div class="user-details panel-primary sombra">
+				<p class="user-text" th:text="'User: ' + ${#authentication.principal.nome}"></p>
+			</div>
+		</div>
+
+		<div class="panel panel-primary menu-details sombra">
+			<div class="panel-heading sombra">
+				<h3 class="panel-title text-center">
+					<strong>Menu</strong>
+				</h3>
+			</div>
+			<div class="panel-body">
+				<div class="dropdown componenteform">
+					<button class="btn btn-info btn-block dropdown-toggle fa  fa-shield" type="button"
+						id="mnadm" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false" sec:authorize="hasRole('ADMIN')">
+						Administrador<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="mnadm">
+						<li class="aw-menu__item" sec:authorize="hasRole('ADMIN')">
+							<a th:href="@{/usuarios}" class="item-menu">
+								<i class="fa fa-user-circle"></i> <span>Usuários</span>
+						</a>
+						</li>
+						<li role="separator" class="divider"></li>
+						<li class="aw-menu__item" sec:authorize="hasRole('ADMIN')">
+							<a th:href="@{/faculdades}" class="item-menu"> <i
+								class="fa  fa-university"></i> <span>Faculdades</span>
+						</a>
+						</li>
+						<li role="separator" class="divider"></li>
+						<li class="aw-menu__item" sec:authorize="hasRole('ADMIN')">
+							<a th:href="@{/salas}"> <i
+								class="fa  fa-sitemap"></i> <span>Salas</span>
+						</a>
+						</li>
+					</ul>
+				</div>
+				<!-- <div class="dropdown componenteform">
+					<button class="btn btn-info btn-block dropdown-toggle fa fa-wrench" type="button"
+						id="mnferramenta" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
+						Ferramentas<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="mnferramenta">
+						<li class="aw-menu__item disable"><a
+							th:href="@{/gip}"> <i class="fa  fa-file-powerpoint-o"></i>
+								<span>Protocolo</span>
+						</a></li>
+						<li role="separator" class="divider"></li>
+						<li class="aw-menu__item"><a th:href="@{/gip}">
+								<i class="fa  fa-clock-o"></i> <span>Calc. Horário</span>
+						</a></li>
+					</ul>
+				</div> -->
+				<div class="dropdown componenteform">
+					<button class="btn btn-info btn-block dropdown-toggle fa fa-search" type="button"
+						id="mnconsulta" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
+						Cadastros<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="mnconsulta">
+						<li class="aw-menu__item"><a
+							th:href="@{/alunos}"> <i class="fa  fa-book"></i>
+								<span>Alunos</span>
+						</a></li>
+						<li role="separator" class="divider"></li>
+						<!-- <li class="aw-menu__item"><a th:href="@{/professores}">
+								<i class="fa  fa-address-card-o"></i> <span>Professores</span>
+						</a></li> -->
+					</ul>
+				</div>
+				<div class="dropdown componenteform">
+					<button class="btn btn-info btn-block dropdown-toggle fa fa-search" type="button"
+						id="mnconsulta" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
+						Consultas<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="mnconsulta">
+						<li class="aw-menu__item"><a
+							th:href="@{/cursos}"> <i class="fa  fa-book"></i>
+								<span>Cursos</span>
+						</a></li>
+						<li role="separator" class="divider"></li>
+						<li class="aw-menu__item"><a th:href="@{/professores}">
+								<i class="fa  fa-address-card-o"></i> <span>Professores</span>
+						</a></li>
+					</ul>
+				</div>
+				<div class="dropdown componenteform">
+					<button class="btn btn-info btn-block dropdown-toggle fa fa-graduation-cap" type="button"
+						id="mnacad" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false" sec:authorize="hasRole('ADMINISTRADOR')">
+						Atend. Acadêmico<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="mnacad">
+						<li class="aw-menu__item">
+							<a th:href="@{/gip}" class="item-menu">
+								<i class="fa  fa-barcode"></i> <span>Controle de Entregas</span>
+						</a>
+						</li>
+					</ul>
+				</div>
+				<div class="dropdown componenteform">
+					<button class="btn btn-info btn-block dropdown-toggle fa fa-balance-scale" type="button"
+						id="mnnpj" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false" sec:authorize="hasRole('ADMIN') or hasRole('NPJ') or hasRole('ADM_NPJ')">
+						NPJ<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="mnnpj">
+						<li class="aw-menu__item">
+							<a th:href="@{/npj/alunos}" class="item-menu">
+								<i class="fa  fa-black-tie"></i> <span>Alunos</span>
+							</a>
+						</li>
+						<li class="aw-menu__item">
+							<a th:href="@{/turmas_estagio}" class="item-menu">
+								<i class="fa  fa-gavel"></i> <span>Turmas de Estágio</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+</body>
+</html>

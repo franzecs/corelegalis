@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+  	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<title>Akademus</title>
+	<link rel="icon" type="image/png" sizes="96x96" th:href="@{/layout/imagens/favicon.png}"/>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:src="@{/datatable/dataTables.bootstrap.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/css/layout.css}" />
+					
+</head>
+<body>
+	<div class="bg"></div>
+
+	<div class="aw-layout-page">
+	
+		<header class="ik-topo" layout:insert="~{layout/fragmentos/header :: header}">
+		</header>
+
+		<aside class="aw-layout-sidebar  js-sidebar" >
+			<div class="aw-layout-sidebar__content"  layout:insert="~{layout/fragmentos/menu :: menu}"></div>
+		</aside>
+		
+		
+		<section class="aw-layout-content  js-content">
+			<div class="container card-transparente" layout:fragment="conteudo">
+			</div>.
+		</section>
+		
+
+		<footer class="aw-layout-footer  js-content">
+			<div class="container-fluid">
+				<span class="aw-footer-disclaimer hidden-xs">&copy; 2017 Ikytus.
+					Todos os direitos reservados.
+				</span>
+			</div>
+		</footer>
+	</div>
+	
+	<script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.pt-BR.min.js}"></script>
+	<script th:src="@{/layout/js/jquery.mask.min.js}"></script>
+	<script th:src="@{/layout/js/jquery.maskMoney.min.js}"></script>
+	<script th:src="@{/layout/js/auxiliar.js}"></script>
+	<script th:src="@{/layout/js/ExcluirModal.js}"></script>
+	<th:block layout:fragment="javascript-extra">
+	</th:block>
+</body>
+</html>

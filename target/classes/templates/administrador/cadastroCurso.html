@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<section layout:fragment="conteudo">
+	<div class="panel panel-primary">
+		
+		<div class="panel-heading sombra">
+			<h2 class="panel-title text-center"><strong>Cadastro de Curso</strong></h2>
+		</div>
+		
+		<div class="panel-body">
+			<div class="container-fluid">
+
+				<th:block layout:insert="~{/layout/fragmentos/alertas :: success}"></th:block>
+
+				<form method="post" class="form-vertical  js-form-loading" enctype="multipart/form-data"
+					th:object="${curso}" th:action="@{/cursos/novo}">
+					
+					<th:block layout:insert="~{/layout/fragmentos/alertas :: validation}"></th:block>
+														
+					<input type="hidden" th:field="*{id}"/>
+					
+					<div class="col-xs-12 col-sm-12 col-md-12">
+						<div class="input-group" th:classappend="${#fields.hasErrors('img')} ? has-error" >
+							<img class="col-xs-12 img-thumbnail img-responsive" id="foto1" th:src="@{/layout/imagens/prod.jpg}" th:if="${#strings.isEmpty(curso.img)}"/>
+							<img class="col-xs-12 img-thumbnail img-responsive" id="foto" th:src="*{img}" th:if="${not #strings.isEmpty(curso.img)}" style="width: 100%"/>
+							<input type="hidden" th:field=*{img}/>
+							<input type="file" name="file" onchange="visualizarImg(3,0)" capture="camera"/>
+						</div>	
+					</div>
+					
+
+					<div class="col-xs-12 col-sm-8 col-md-8">
+						<div class="form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+							<label for=nome class="input-group-addon control-label">Nome</label>
+							<input id="nome" type="text" 
+								class="form-control upcase" th:field="*{nome}" />
+						</div>
+					</div>
+					
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<div class="form-group" th:classappend="${#fields.hasErrors('faculdade')} ? has-error">
+							<label for=ies class="input-group-addon control-label">IES</label>
+							<select id="ies" class="form-control" th:field="*{faculdade}">
+								<option value="">Selecione a IES</option>
+								<option th:each="faculdade : ${listaies}" th:value="${faculdade.id}"
+									th:text="${faculdade.sigla}"></option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="col-xs-12 col-sm-6 col-md-6">
+						<div class="form-group" th:classappend="${#fields.hasErrors('coordenador')} ? has-error">
+							<label for=coordenador class="input-group-addon control-label">Coordenador</label>
+							<select id="coordenador" class="form-control" th:field="*{coordenador}">
+								<option value="">Selecione o Coordenador</option>
+								<option th:each="coord : ${coordenadores}" th:value="${coord.nome}"
+									th:text="${coord.nome}"></option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="col-xs-12 col-sm-6 col-md-6">
+						<div class="form-group" th:classappend="${#fields.hasErrors('mec')} ? has-error">
+							<label for=mec class="input-group-addon control-label">Mec</label>
+							<input id="mec" type="text" class="form-control upcase" th:field="*{mec}"/>
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-12 col-md-12 text-center bg-primary">
+						Horários de Coordenação
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3">
+						<div class="input-group btn btn-danger" th:classappend="${#fields.hasErrors('horarioseg')} ? has-error">
+							<label for=horarioseg class="control-label">Segunda</label>
+							<input id="horarioseg" type="text" class="form-control text-center horario-coord" th:field="*{horarioseg}"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3">
+						<div class="input-group btn btn-success" th:classappend="${#fields.hasErrors('horarioter')} ? has-error">
+							<label for=horarioter class="control-label">Terça</label>
+							<input id="horarioter" type="text" class="form-control text-center horario-coord" th:field="*{horarioter}"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3">
+						<div class="input-group btn btn-info" th:classappend="${#fields.hasErrors('horarioqua')} ? has-error">
+							<label for=horarioqua class="control-label">Quarta</label>
+							<input id="horarioqua" type="text" class="form-control text-center horario-coord" th:field="*{horarioqua}"/>
+						</div>
+					</div>
+					
+					<div class="col-xs-12 col-sm-3 col-md-3">
+						<div class="input-group btn btn-primary" th:classappend="${#fields.hasErrors('horarioqui')} ? has-error">
+							<label for=horarioqui class="control-label">Quinta</label>
+							<input id="horarioqui" type="text" class="form-control text-center horario-coord" th:field="*{horarioqui}"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3">
+						<div class="input-group btn btn-warning" th:classappend="${#fields.hasErrors('horariosex')} ? has-error">
+							<label for=horariosex class="control-label">Sexta</label>
+							<input id="horariosex" type="text" class="form-control text-center horario-coord"  th:field="*{horariosex}"/>
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-12 col-md-12">
+						<div class="form-group">
+							<button class="btn  btn-success pull-left sombra-btn" 
+								type="submit" title="Salvar Curso" data-toggle="tooltip" 
+								sec:authorize="hasRole('ADMIN') or hasRole('EDITOR')">Salvar</button>
+							
+							<a class="btn btn-info pull-right sombra-btn" th:href="@{/cursos}" 
+								title="voltar" data-toggle="tooltip"> 
+								<i class="fa  fa-reply"></i> 
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/layout/javascripts/jquery.mask.min.js}"></script>
+	<script type="text/javascript">
+		
+	</script>
+	<script th:src="@{/layout/js/VisualizarImagem.js}"></script>
+</th:block>
+</html>

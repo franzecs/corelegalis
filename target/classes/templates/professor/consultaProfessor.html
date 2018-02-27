@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<section layout:fragment="conteudo">
+	<div class="panel panel-primary">
+		<div class="panel-heading sombra">
+	    			<h2 class="panel-title text-center"><strong>Professores Cadastrados</strong>
+				<a  class="btn btn-info sombra-btn pull-right" style="margin:-8px -12px;" 
+					th:href="@{/professores/novoProfessor}" 
+					title="Novo" data-toggle="tooltip" data-placement="bottom"
+					sec:authorize="hasRole('ADMINISTRADOR')"> 
+							<i class="fa  fa-fw  fa-plus"></i> 
+				</a>
+				
+			</h2>		
+		</div>
+		<div class="panel-body">
+			<div class="container-fluid">
+				
+				<th:block layout:insert="~{/layout/fragmentos/alertas :: success}"></th:block>
+				
+				<div class="col-xs-12">
+					
+					<th:block layout:insert="~{layout/fragmentos/pageable :: pageSelect ('/professores')}"></th:block>
+					
+					<div class="col-xs-6" style="margin:-8px -12px;">
+						<form method="GET" class="form-horizontal" th:action="@{/professores}" th:object="${filtro}" >
+				   			<div class="form-group">
+				   				<div class="col-xs-3">
+				   					<div class="input-group">
+				   						<select id="titulo" class="form-control" th:field="*{situacao}">
+											<option value="Ativo">Ativo</option>
+											<option value="Afastado">Afastado</option>
+											<option value="Desligado">Desligado</option>
+											<option value="Licença">Licença</option>
+										</select>
+				   					</div>
+				   				 </div>
+				   				 <div class="col-xs-9 pull-right">	
+				   					<div class="input-group">
+				   						<input class="form-control" id="filtro" placeholder="Nome do Usuário"
+				   							autofocus="autofocus" th:field="*{nome}"></input>
+				   						<input type="hidden" name="pageSize"  th:value="${selectedPageSize}"/>
+				   						<span class="input-group-btn">
+				   							<button type="submit" class="btn btn-default">
+				   								<i class="glyphicon glyphicon-search"></i>
+				   							</button>
+				   						</span>
+				   					</div>
+				   				 </div>	
+			   				</div>
+				   		</form>
+		   			</div>
+				</div>
+				
+									
+				<table	id="tabela-professores" class="table  table-striped  
+					table-bordered  table-hover  table-condensed table-reflow">
+					<thead class="aw-table-header-solid">
+						<tr>
+							<th data-label="Nome">Nome</th>
+							<th class="ik-table-col-codigo" data-label="Funcional">Funcional</th>
+							<th data-label="Celular">Celular</th>
+							<th data-label="E-mail">E-mail</th>
+							<th data-label="cpf" style="display: none;">CPF</th>
+							<th class="ik-table-col-icons hidden-xs" sec:authorize="hasRole('ADMINISTRADOR')"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="professor : ${lista}">
+							<td data-label="Nome">
+								<a	th:href="@{/professores/{codigo}(codigo=${professor.codigo})}" th:text="${professor.nome}"
+									data-toggle="tooltip" data-placement="bottom" 
+									th:attr="title=${professor.titulo}"></a>
+							</td>
+							<td th:text="${professor.funcional}" data-label="Funcional"></td>
+							<td th:text="${professor.celular}" data-label="Celular"></td>
+							<td th:text="${professor.emailprincipal}" data-label="E-mail"></td>
+							<td th:text="${professor.cpf}" data-label="cpf" style="display: none;"></td>
+							<td  class="text-center hidden-xs" style="vertical-align: middle;" sec:authorize="hasRole('ADMINISTRADOR')">
+								<button type="button" class="btn btn-danger btn-xs btn-block btn-active hidden-xs">
+									<i	class="fa fa-trash"	style="cursor: pointer"	
+										data-toggle="modal"	
+										data-target="#confirmaExclusaoModal"
+										data:nome="${professor.nome}"
+										data:url-apagar="@{/professores/{codigo}(codigo=${professor.codigo})}"
+										>
+									</i>
+								</button>
+							</td>
+						</tr>
+						<tr th:if="${lista.getTotalElements()==0}">
+							<td	colspan="5"	class="bg-danger">Nenhum Professor cadastrado</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td	colspan="5"	class="bg-primary text-center">
+								<strong><span th:text="'Total de Registros: ' + ${lista.getTotalElements()}"></span></strong>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			<th:block layout:insert="~{layout/fragmentos/pageable :: pageControl ('/professores')}"></th:block>
+		</div>
+	</div>	
+	<th:block layout:insert="~{layout/fragmentos/parts :: confirmaExclusao (@{/professores})}"></th:block>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/layout/js/pageable.js}"></script>
+	<script th:src="@{/layout/js/jquery.btechco.excelexport.js}"></script>
+	<script th:src="@{/layout/js/jquery.base64.js}"></script>
+	<script>
+	    $(document).ready(function () {
+	        $("#btnDownload").click(function () {
+	            $("#tabela-professores").btechco_excelexport({
+	                containerid: "tabela-professores"
+	               , datatype: $datatype.Table
+	               , filename: 'tabela-professores'
+	            });
+	        });
+	    });
+	</script>
+</th:block>
+
+</html>

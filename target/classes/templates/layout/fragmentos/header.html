@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<head>
+	<meta charset="UTF-8" />
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top" id="main-navbar" layout:fragment="header">
+		<div class="container-fluid bg-primary">
+			<div class="navbar-header">
+				<a class="navbar-brand  hidden-xs" th:href="@{/fp}"> 
+					<img alt="Adhesive" th:src="@{/layout/imagens/logo_ak_left.png}" title="Home" 
+						data-toggle="tooltip" data-placement="bottom" style="background: transparent; max-width: 60px; margin-top: 8px" />
+				</a>
+			</div>	
+			<div class="text-center header-opt" style="margin-top: 10px">
+				<a href="#" class="js-sidebar-toggle pull-left col-xs-3 col-md-1" title="Menu" 
+							data-toggle="tooltip" data-placement="bottom" style="text-align: left;">
+					<i class="fa fa-inverse fa-bars"></i>
+				</a>
+				<a class="col-xs-6" th:href="@{/fp}"> 
+					<img alt="Adhesive" th:src="@{/layout/imagens/logo_ak_gray.png}" title="Home" 
+						data-toggle="tooltip" data-placement="bottom"  style="margin-top: -22px;padding: 2px; max-height: 30px; width: 100%; max-width:290px; background: transparente;"/>
+				</a>
+				<a th:href="@{/logout}" class="pull-right col-xs-3 col-md-1" title="Sair" 
+						data-toggle="tooltip" data-placement="bottom" style="text-align: right;">
+					<i class="fa fa-inverse fa-sign-out"></i>
+				</a>
+			</div>
+		</div>	
+	</nav>
+</body>
+</html>

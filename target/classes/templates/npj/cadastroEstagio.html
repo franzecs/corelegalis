@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<section layout:fragment="conteudo">
+	<div class="container card">
+		<div class="panel panel-primary">
+			
+			<div class="panel-heading sombra">
+				<h2 class="panel-title text-center"><strong>Cadastro de Estágio</strong></h2>
+			</div>
+			
+			<div class="panel-body">
+				<div class="container-fluid">
+
+					<th:block layout:insert="~{/layout/fragmentos/alertas :: success}"></th:block>
+					
+					<form method="post" class="form-vertical  js-form-loading"
+						th:object="${estagio}" th:action="@{/gip/npj/aluno/novoEstagio}">
+						
+						<th:block layout:insert="~{/layout/fragmentos/alertas :: validation}"></th:block>
+															
+						<input type="hidden" th:field="*{codigo}"/>
+						<input type="hidden" th:field="*{aluno}"/>
+						
+						<th:block layout:insert="~{/layout/fragmentos/selects :: tipoestagio}"></th:block>
+						
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="input-group" th:classappend="${#fields.hasErrors('semestreatual')} ? has-error">
+								<label for=semestreatual class="control-label visible-xs">Semestre Atual</label>
+								<span class="input-group-addon control-label hidden-xs">Semestre Atual:</span>
+								<input id="semestreatual" type="text" class="form-control semestre" th:field="*{semestreatual}"/>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="input-group" th:classappend="${#fields.hasErrors('periodo')} ? has-error">
+								<label for=periodo class="control-label visible-xs">Série Aluno</label>
+								<span class="input-group-addon control-label hidden-xs">Série Aluno:</span>
+								<input id="periodo" type="text" class="form-control periodo" th:field="*{periodo}"/>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="input-group" th:classappend="${#fields.hasErrors('dp')} ? has-error">
+								<label for=dp class="control-label visible-xs">Dependência</label>
+								<span class="input-group-addon control-label hidden-xs">Dependência:</span>
+								<input id="dp" type="checkbox" class="form-control funcional" th:field="*{dp}"/>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="input-group" th:classappend="${#fields.hasErrors('cargahoraria')} ? has-error">
+								<label for=cargahoraria class="control-label visible-xs">Carga Horária</label>
+								<span class="input-group-addon control-label hidden-xs">Carga Horária:</span>
+								<input id="cargahoraria" type="text" class="form-control ch" th:field="*{cargahoraria}"/>
+							</div>
+						</div>
+						
+						<th:block layout:insert="~{/layout/fragmentos/selects :: diasemana}"></th:block>
+						
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="input-group" th:classappend="${#fields.hasErrors('horario')} ? has-error">
+								<label for=horario class="control-label visible-xs">Horário</label>
+								<span class="input-group-addon control-label hidden-xs">Horário:</span>
+								<input id="horario" type="text" class="form-control horario" th:field="*{horario}"/>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="input-group" th:classappend="${#fields.hasErrors('datainscricao')} ? has-error">
+								<label for=datainscricao class="control-label visible-xs">Data Inscrição</label>
+								<span class="input-group-addon control-label hidden-xs">Data Inscrição:</span>
+								<input id="datainscricao" type="text" class="form-control" th:field="*{datainscricao}"
+									   data-provide="datepicker" data-format="dd/mm/yyyy" data-date-language="pt-BR"
+									   data-date-autoclose="true" data-date-today-Highlight="true"/>
+							</div>
+						</div>
+											
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="input-group" th:classappend="${#fields.hasErrors('professor')} ? has-error">
+								<label for=professor class="control-label visible-xs">Professor</label>
+								<span class="input-group-addon control-label hidden-xs">Professor:</span>
+								<input id="professor" type="text" class="form-control" th:field="*{professor}"/>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-3 col-md-3" th:classappend="${not #authorization.expression('hasRole(''ADMINISTRADOR'') or hasRole(''ADM_NPJ'')')} ? hidden">
+							<div class="input-group" th:classappend="${#fields.hasErrors('nota')} ? has-error">
+								<label for=nota class="control-label visible-xs">Nota</label>
+								<span class="input-group-addon control-label hidden-xs">Nota:</span>
+								<input id="nota" type="text" class="form-control nota" th:field="*{nota}"/>
+							</div>
+						</div>
+																
+						<th:block layout:insert="~{/layout/fragmentos/selects :: situacao}"></th:block>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="input-group" th:classappend="${#fields.hasErrors('observacao')} ? has-error">
+								<label for=observacao class="control-label visible-xs">Observação</label>
+								<span class="input-group-addon control-label hidden-xs">Observação:</span>
+								<textarea id="observacao" maxlength="500" class="form-control" th:field="*{observacao}"></textarea>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group">
+								<button class="btn  btn-success pull-left sombra-btn" 
+										type="submit" title="Salvar Estagio" 
+										data-toggle="tooltip" 
+										sec:authorize="hasRole('ADMINISTRADOR') or hasRole('EDITOR')">Salvar</button>
+								<a class="btn btn-info pull-right sombra-btn" 
+									th:href="@{/gip/npj/aluno}" title="voltar" data-toggle="tooltip"> 
+									<i class="fa  fa-reply"></i> 
+								</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/layout/javascripts/jquery.mask.min.js}"></script>
+	<script th:src="@{/datepicker/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/datepicker/bootstrap-datepicker.pt-BR.min.js}"></script>
+	<script type="text/javascript">
+		$(".semestre").mask("0000.0");
+		$(".periodo").mask("0º");
+		$(".ch").mask("999");
+		$(".nota").mask("99.99");
+		$(".horario").mask("99:99-99:99");
+	</script>
+</th:block>
+</html>

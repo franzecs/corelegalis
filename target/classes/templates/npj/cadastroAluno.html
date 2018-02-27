@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout/LayoutPadrao}"
+>
+<section layout:fragment="conteudo">
+	<div class="panel panel-primary">
+		<div class="panel-heading sombra">
+			<h2 class="panel-title text-center">
+				<strong>Cadastro de Aluno</strong>
+			</h2>
+		</div>
+		<div class="panel-body">
+			<div class="container-fluid">
+				
+				<th:block layout:insert="~{/layout/fragmentos/alertas :: success}"></th:block>
+				
+				<form method="post" class="form-vertical  js-form-loading" th:object="${aluno}"
+					th:action="@{/alunos/novo}"	>
+					
+					<th:block layout:insert="~{/layout/fragmentos/alertas :: validation}"></th:block>
+					
+					<input type="hidden" th:field="*{codigo}"/>
+					
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<div class="form-group" th:classappend="${#fields.hasErrors('matricula')} ? has-error">
+							<label for=matricula class="input-group-addon control-label">Matricula</label> 
+							<input id="matricula" type="text" class="form-control matricula" th:field="*{matricula}"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-6">
+						<div class="form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+							<label for=nome class="input-group-addon control-label">Nome</label>
+							<input id="nome" type="text" class="form-control upcase" th:field="*{nome}"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<div class="form-group" th:classappend="${#fields.hasErrors('curso')} ? has-error">
+							<label for=ies class="input-group-addon control-label">Curso</label>
+							<select id="ies" class="form-control" th:field="*{curso}">
+								<option value="">Selecione a Curso</option>
+								<option th:each="curso : ${listacurso}" th:value="${curso.codigo}"
+									th:text="${curso.nome}+' - '+${curso.ies.sigla}"></option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<div class="form-group" th:classappend="${#fields.hasErrors('celular')} ? has-error">
+							<label for=celular class="input-group-addon control-label">Celular</label> 
+							<input id="celular" type="text" class="form-control telefone" th:field="*{celular}"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<div class="form-group" th:classappend="${#fields.hasErrors('fixo')} ? has-error">
+							<label for=fixo class="input-group-addon control-label">Fixo</label> 
+							<input id="fixo" type="text" class="form-control telefone" th:field="*{fixo}"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<div class="form-group" th:classappend="${#fields.hasErrors('outro')} ? has-error">
+							<label for=outro class="input-group-addon control-label">Outro</label> 
+							<input id="outro" type="text" class="form-control telefone" th:field="*{outro}"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-6">
+						<div class="form-group" th:classappend="${#fields.hasErrors('emailprincipal')} ? has-error">
+							<label for=emailprincipal class="input-group-addon control-label">E-mail 1</label> 
+							<input id="emailprincipal" type="email" class="form-control lowcase" th:field="*{emailprincipal}"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-6">
+						<div class="form-group" th:classappend="${#fields.hasErrors('emailsecundario')} ? has-error">
+							<label for=emailsecundario class="input-group-addon control-label">E-mail 2</label> 
+							<input id="emailsecundario" type="email" class="form-control lowcase" th:field="*{emailsecundario}"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12">
+						<div class="form-group">
+							<button	class="btn  btn-success pull-left" type="submit" title="Salvar Aluno"
+								data-toggle="tooltip" sec:authorize="hasRole('ADMINISTRADOR') or hasRole('EDITOR')">Salvar</button>
+							<a class="btn btn-info pull-right sombra-btn" th:href="@{/alunos}" title="voltar" data-toggle="tooltip">
+								 <i class="fa  fa-reply"></i>
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading sombra">
+			<h2 class="panel-title text-center"><strong>Estágios do Aluno</strong>
+				<a	class="btn btn-info sombra-btn pull-right" style="margin:-8px -12px;"
+					th:href="@{/alunos/novoEstagio}"	title="Cadastro Estagio" 
+					data-toggle="tooltip" sec:authorize="hasRole('ADMINISTRADOR')">
+					<i class="fa  fa-fw  fa-plus"></i>
+				</a>
+			</h2>
+		</div>
+	
+		<div class="panel-body">
+			<div class="container-fluid">
+	
+				<table id="tabela-estagio" class="table  table-striped	table-bordered  table-hover  table-condensed table-reflow"
+					th:if="${not #strings.isEmpty(aluno.codigo)}">
+					<thead class="aw-table-header-solid">
+						<tr>
+							<th data-label="Estágio">Estágio</th>
+							<th	class="ik-table-col-codigo" data-label="Ano/Semestre">Ano/Semestre</th>
+							<th	class="ik-table-col-codigo" data-label="Período">Período</th>
+							<th	class="ik-table-col-codigo" data-label="DP?">DP?</th>
+							<th	class="ik-table-col-codigo" data-label="C/H">C/H</th>
+							<th data-label="Professor">Professor</th>
+							<th	class="ik-table-col-codigo" data-label="Nota">Nota</th>
+							<th data-label="Situação">Situação</th>
+							<th	class="ik-table-col-icons hidden-xs" sec:authorize="hasRole('ADMINISTRADOR')"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="estagio : ${lista}">
+							<td data-label="Estagio"><a	th:href="@{/estagios/{codigo}(codigo=${estagio.codigo})}" 
+								th:text="${estagio.tipoestagio}"></a></td>
+							<td	th:text="${estagio.semestreatual}" data-label="Ana/Semestre"></td>
+							<td	th:text="${estagio.periodo}" data-label="Período"></td>
+							<td	th:text="${estagio.dp}"data-label="DP?"></td>
+							<td	th:text="${estagio.cargahoraria}" data-label="C/H"></td>
+							<td	th:text="${estagio.professor}" data-label="Professor"></td>
+							<td	th:text="${estagio.nota}" data-label="Nota"></td>
+							<td	th:text="${estagio.situacao}" data-label="Situação"></td>
+							<td class="text-center hidden-xs" style="vertical-align: middle;"
+								sec:authorize="hasRole('ADMINISTRADOR')">
+								<button	type="button" class="btn btn-danger btn-xs btn-block btn-active hidden-xs">
+									<i 	class="fa fa-trash" style="cursor: pointer" data-toggle="modal"
+										data-target="#confirmaExclusaoModal" data:nome="${estagio.tipoestagio}"
+										data:url-delete="@{/estagios/{codigo}(codigo=${estagio.codigo})}">
+									</i>
+								</button>
+							</td>
+						</tr>
+						<tr th:if="${listaestagio.empty}">
+							<td	colspan="5" class="bg-danger">Nenhum estagio cadastrado</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<th:block layout:insert="~{/layout/fragmentos/parts :: confirmaExclusao (@{/estagios})}"></th:block>
+</section>
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/layout/javascripts/jquery.mask.min.js}"></script>
+	<script type="text/javascript">
+		$(".telefone").mask("(99) 90000-0000");
+		$(".matricula").mask("AAAAAAAAAAA");
+	</script>
+</th:block>
+</html>

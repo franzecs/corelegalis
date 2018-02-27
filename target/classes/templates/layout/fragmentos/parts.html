@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html 	lang="pt" 
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns:sec="http://www.springframework.org/security/tags">
+<head>
+	<meta charset="UTF-8" />
+</head>
+<body>
+	<th:block layout:fragment="confirmaExclusao (acao)">
+		<div class="modal fade" id="confirmaExclusaoModal"	tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<form	th:action="${acao}"	th:method="post">>
+						
+						<input th:type="hidden" th:name="_method" th:value="DELETE"/>
+						
+						<div class="modal-header">
+							<button	type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4	class="modal-title" id="myModalLabel">Confirmar Exclusão</h4>
+						</div>
+						<div class="modal-body">
+							<span>Tem certeza?</span>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+							<button type="submit" class="btn btn-primary">Excluir</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+	
+	
+	
+	<th:block layout:fragment="pesquisa(referencia, autorize)">
+		<form method="GET" 	class="form-vertical js-form-loading" th:object="${filter}">
+			<div class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon">Pesquisa:</span>
+					<input id="nome" type="text" class="form-control" placeholder="Nome" th:field="*{nome}"/> 
+					<span class="input-group-btn">
+						<button	class="btn btn-success sombra"	type="submit" title="Pesquisar" data-toggle="tooltip">
+							<span class="fa fa-search"></span>
+						</button>
+						<button	class="btn btn-defaul"	disabled="disabled">
+							<span class="fa fa-bar"></span>
+						</button>
+						<a class="btn btn-info sombra" th:href="${referencia}" 
+							title="Novo" data-toggle="tooltip"
+							sec:authorize-url="${autorize}"> 
+							<i class="fa  fa-fw  fa-plus"></i> 
+						</a>
+					</span>
+				</div>
+			</div>
+		</form>
+	</th:block>
+		
+</body>
+</html>

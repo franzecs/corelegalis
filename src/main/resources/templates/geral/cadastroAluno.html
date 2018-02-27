@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<section layout:fragment="conteudo">
+	<div class="panel panel-primary">
+		
+		<div class="panel-heading sombra">
+			<h2 class="panel-title text-center"><strong>Cadastro de Alunos</strong></h2>
+		</div>
+		
+		<div class="panel-body">
+			<div class="container-fluid">
+
+				<th:block layout:insert="~{/layout/fragmentos/alertas :: success}"></th:block>
+
+				<form method="post" class="form-vertical  js-form-loading" enctype="multipart/form-data"
+					th:object="${aluno}" th:action="@{/alunos/novo}">
+					
+					<th:block layout:insert="~{/layout/fragmentos/alertas :: validation}"></th:block>
+																				
+					<input type="hidden" th:field="*{id}"/>
+					
+					
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<div class="input-group" th:classappend="${#fields.hasErrors('img')} ? has-error" >
+							<img class="col-xs-12 img-thumbnail img-responsive" id="foto1" th:src="@{/layout/imagens/prod.jpg}" th:if="${#strings.isEmpty(aluno.img)}" style="max-width: 120px"/>
+							<img class="col-xs-12 img-thumbnail img-responsive" id="foto" th:src="*{img}" th:if="${not #strings.isEmpty(aluno.img)}" style="max-width: 120px"/>
+							<input type="hidden" th:field=*{img}/>
+							<input type="file" name="file" onchange="visualizarImg(4,0)" capture="camera"/>
+						</div>	
+					</div>
+					<div class="col-xs-12 col-sm-10 col-md-10">
+						<div class="col-xs-12 col-sm-2 col-md-2">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('matricula')} ? has-error">
+								<label for=matricula class="input-group-addon control-label">Matricula</label>
+								<input id="matricula" type="text" class="form-control" th:field="*{matricula}" />
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-7 col-md-7">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+								<label for=nome class="input-group-addon control-label">Nome</label>
+								<input id="nome" type="text" class="form-control" th:field="*{nome}" />
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-2 col-md-2">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('curso')} ? has-error">
+								<label for=curso class="input-group-addon control-label">Curso</label>
+								<input id="curso" type="text" class="form-control" th:field="*{curso}" />
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-1 col-md-1">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('semestre')} ? has-error">
+								<label for=sem class="input-group-addon control-label">Sem.</label>
+								<input id="sem" type="text" class="form-control" th:field="*{semestre}" />
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('cpf')} ? has-error">
+								<label for=cpf class="input-group-addon control-label">cpf</label>
+								<input id="cpf" type="text" class="form-control cpf" th:field="*{cpf}" />
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('dtnasc')} ? has-error">
+								<label for=dtnasc class="input-group-addon control-label">Aniversário</label>
+								<input id="dtnasc" type="text" class="form-control" th:field="*{dtnasc}" 
+										data-provide="datepicker" data-format="dd/mm/yyyy" data-date-language="pt-BR"
+										data-date-autoclose="true" data-date-today-Highlight="true"/>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('senha')} ? has-error">
+								<label for=senha class="input-group-addon control-label">senha</label>
+								<input id="senha" type="password" class="form-control" th:field="*{senha}" th:value="${aluno.senha}"/>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('email')} ? has-error">
+								<label for=email class="input-group-addon control-label">E-mail(1)</label>
+								<input id="email" type="email" class="form-control" th:field="*{email}" />
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('emailsec')} ? has-error">
+								<label for=email2 class="input-group-addon control-label">E-mail(2)</label>
+								<input id="email2" type="email" class="form-control" th:field="*{emailsec}"/>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="form-group input-group-sm">
+								<label for=tel1 class="input-group-addon control-label">Tefone1</label>
+								<input id="tel1" type="text" class="form-control telefone" th:name="tel1" th:value="${tel1}"/>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="form-group input-group-sm">
+								<label for=tel2 class="input-group-addon control-label">Tefone2</label>
+								<input id="tel2" type="text" class="form-control telefone" th:name="tel2" th:value="${tel2}"/>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="form-group input-group-sm">
+								<label for=email2 class="input-group-addon control-label">Tefone3</label>
+								<input type="text" class="form-control telefone" th:name="tel3" th:value="${tel3}"/>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-8 col-md-8">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('endereco')} ? has-error">
+								<label for=endereco class="input-group-addon control-label">Endereco</label>
+								<input id="endereco" type="text" class="form-control" th:field="*{endereco}"/>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<div class="form-group input-group-sm" th:classappend="${#fields.hasErrors('bairro')} ? has-error">
+								<label for=bairro class="input-group-addon control-label">Bairro</label>
+								<input id="bairro" type="text" class="form-control" th:field="*{bairro}"/>
+							</div>
+						</div>
+						
+					</div>												
+																						
+					<div class="col-xs-12">
+						<div class="form-group">
+							<button class="btn  btn-success pull-left sombra-btn" 
+									type="submit" title="Salvar aluno" 
+									data-toggle="tooltip" 
+									sec:authorize="hasRole('ADMIN') or hasRole('EDITOR')">Salvar</button>
+							<a class="btn btn-info pull-right sombra-btn" 
+								th:href="@{/alunos}" title="voltar" data-toggle="tooltip"> 
+								<i class="fa  fa-reply"></i> 
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/layout/js/VisualizarImagem.js}"></script>
+	<script th:src="@{/webjars/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.pt-BR.min.js}"></script>
+	<script th:src="@{/layout/js/jquery.mask.min.js}"></script>
+	<script type="text/javascript">
+		
+	</script>
+</th:block>
+</html>

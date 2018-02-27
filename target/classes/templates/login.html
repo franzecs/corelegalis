@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout/LayoutSimples}">
+
+<th:block layout:fragment="conteudo">
+
+	<form th:action="@{/login}" method="POST" class="">
+
+		<div class="aw-simple-panel card-login">
+			<div style="background: rgba(130,130,130,.3); padding: 1px; margin:-10px;">
+				<img alt="Adesive" th:src="@{layout/imagens/logo_ak_red.png}" style="max-height: 45px; max-width:290px;"/>
+											
+				<div class="aw-simple-panel__message  is-error" th:if="${#bools.isTrue(param.error)}">
+					O usuário e/ou senha não conferem
+				</div>
+			</div>
+			<br>
+			<div class="aw-simple-panel__box">
+				<div class="form-group  has-feedback">
+					<span class="glyphicon glyphicon-user  form-control-feedback"></span>
+					<input type="text" class="form-control input-xs" placeholder="E-mail" 
+						autofocus="autofocus" name="username"/>
+				</div>
+				
+				<div class="form-group  has-feedback">
+					<span class="  form-control-feedback" ><img th:src="@{/layout/imagens/lock.png}"></span>
+					<input type="password" class="form-control input-xs" placeholder="Senha" name="password"/>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn  btn-primary  btn-lg  btn-block sombra-btn">Entrar</button>
+					<button type="button" class="btn  btn-warning  btn-lg  btn-block sombra-btn">Esqueci a senha</button>
+				</div>
+			</div>
+		</div>
+		
+	</form>
+	
+
+</th:block>
+<th:block layout:fragment="javascript-extra">
+</th:block>
+
+
+</html>

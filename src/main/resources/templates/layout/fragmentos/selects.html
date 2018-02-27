@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html 	lang="pt" 
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns:sec="http://www.springframework.org/security/tags">
+<head>
+	<meta charset="UTF-8" />
+</head>
+<body>
+
+	<th:block layout:fragment="titulo">
+		<div class="col-xs-12 col-sm-3 col-md-3 componenteform">
+			<div class="form-group" th:classappend="${#fields.hasErrors('titulo')} ? has-error">
+				<label class="input-group-addon control-label">Título</label>
+				<select id="titulo" class="form-control" th:field="*{titulo}">
+					<option value="">Selecione a Titulação</option>
+					<option value="Especialização">Especialização</option>
+					<option value="Mestrado">Mestrado</option>
+					<option value="Doutorado">Doutorado</option>
+					<option value="PHD">PHD</option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="status">
+		<div class="col-xs-12 col-sm-3 col-md-3 componenteform">
+			<div class="form-group" th:classappend="${#fields.hasErrors('situacao')} ? has-error">
+				<label class="input-group-addon control-label">Situação</label>
+				<select id="situacao" class="form-control" th:field="*{situacao}">
+					<option value="Ativo">Ativo</option>
+					<option value="Afastado">Afastado</option>
+					<option value="Desligado">Desligado</option>
+					<option value="Licença">Licença</option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="filtrostatus">
+		<div class="col-xs-12 col-sm-4 col-md-4 componenteform">
+			<div class="form-group" th:classappend="${#fields.hasErrors('situacao')} ? has-error">
+				<label for=situacao class="control-label visible-xs">Situacao</label>
+				<span class="input-group-addon control-label hidden-xs">Situacao:</span>
+				<select id="situacao" class="form-control" th:field="*{situacao}">
+					<option value="Ativo">Ativos</option>
+					<option value="Afastado">Afastados</option>
+					<option value="Coordenadores">Coordenadores</option>
+					<option value="Desligado">Desligados</option>
+					<option value="Licença">Licença</option>
+					<option value="Todos">Todos</option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="andarsala">
+		<div class="col-xs-12 col-sm-3 col-md-3 componenteform">
+			<div class="form-group" th:classappend="${#fields.hasErrors('andar')} ? has-error">
+				<label for=andar class="control-label visible-xs">Andar</label>
+				<span class="input-group-addon control-label hidden-xs">Andar</span>
+				<select id="andar" class="form-control" th:field="*{andar}">
+					<option value="Térreo">Térreo</option>
+					<option value="1º andar">1º andar</option>
+					<option value="2º andar">2º Andar</option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="statussala">
+		<div class="col-xs-12 col-sm-3 col-md-3 componenteform">
+			<div class="form-group" th:classappend="${#fields.hasErrors('situacao')} ? has-error">
+				<label class="input-group-addon control-label">Situação</label>
+				<select id="situacao" class="form-control" th:field="*{situacao}">
+					<option value="Vazia">Vazia</option>
+					<option value="Alocada">Alocada</option>
+					<option value="Cedida">Cedida</option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="setores">
+		<div class="col-xs-12 col-sm-3 col-md-3 componenteform">
+			<div class="form-group" th:classappend="${#fields.hasErrors('setor')} ? has-error">
+				<label class="input-group-addon control-label hidden-xs">Setor:</label>
+				<select id="setor" class="form-control" th:field="*{setor}">
+					<option value="">Selecione o Setor</option>
+					<option th:each="setor : ${setores}" th:value="${setor}"
+						th:text="${setor.descricao}"></option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
+	<!-- Selects do NPJ - Início -->
+	
+	<th:block layout:fragment="tipoestagio">
+		<div class="col-xs-12 col-sm-3 col-md-3 componenteform">
+			<div class="form-group" th:classappend="${#fields.hasErrors('tipoestagio')} ? has-error">
+				<label class="input-group-addon control-label">Estágio</label>
+				<select id="tipoestagio" class="form-control" th:field="*{tipoestagio}">
+					<option value="">Selecione o Estágio</option>
+					<option value="SIMULADO">SIMULADO</option>
+					<option value="REAL CÍVEL">REAL CÍVEL</option>
+					<option value="REAL PENAL">REAL PENAL</option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="situacao">
+		<div class="col-xs-12 col-sm-3 col-md-3 componenteform" th:classappend="${not #authorization.expression('hasRole(''ADMINISTRADOR'') or hasRole(''ADM_NPJ'')')} ? hidden">
+			<div class="form-group" th:classappend="${#fields.hasErrors('situacao')} ? has-error">
+				<label class="input-group-addon control-label">Situação</label>
+				<select id="situacao" class="form-control" th:field="*{situacao}">
+					<option value="">Situação</option>
+					<option value="APROVADO">APROVADO</option>
+					<option value="REPROVADO">REPROVADO</option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="diasemana">
+		<div class="col-xs-12 col-sm-3 col-md-3 componenteform">
+			<div class="form-group" th:classappend="${#fields.hasErrors('diaestagio')} ? has-error">
+				<label class="input-group-addon control-label">Dia do Estágio</label>
+				<select id="diaestagio" class="form-control" th:field="*{diaestagio}">
+					<option value="">Dia</option>
+					<option value="SEGUNDA">SEGUNDA</option>
+					<option value="TERÇA">TERÇA</option>
+					<option value="QUARTA">QUARTA</option>
+					<option value="QUINTA">QUINTA</option>
+					<option value="SEXTA">SEXTA</option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
+	
+	<!-- Selects do NPJ - FIM -->
+		
+</body>
+</html>

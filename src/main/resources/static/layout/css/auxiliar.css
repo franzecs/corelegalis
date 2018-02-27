@@ -1,0 +1,215 @@
+ @charset "utf-8";
+/*******************\
+	STILO
+\*******************/
+.card, .card-radius, .card-home, .card-transparente, .card-login {
+	background-color: #ffffff;
+	padding: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-style: inset;
+	border-radius: 5px;
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19) !important;
+}
+
+.card-radius {
+	border-radius: 10px;
+}
+
+.card-home {
+	margin-top: 150px;
+}
+
+.card-transparente, .card-login{
+  	background: rgba(130,130,130,.3);
+}
+
+.card-login{
+	max-width: 300px;
+	margin: 0 auto;
+}
+
+.bg {
+	background-image: url('../imagens/bg_ak.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:center;
+	position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+   /*  -webkit-filter: blur(3px);  */
+}
+
+.sombra, .sombra-btn {
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19) !important;
+}
+
+.sombra-btn:hover {
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+div>span.input-group-addon, input[type=text],input[type=email],input[type=checkbox], input[type=password], select, option{
+	padding:3px;
+	font-weight: bold;
+}
+
+div>label.input-group-addon {
+	background-color: #d9edf7 !important;
+	font-style: italic;
+	font-weight: bolder;
+}
+
+.boxSearch {
+	width: 90px !important;
+}
+
+.boxOpt {
+	width: 60px !important;
+}
+
+.titulo, .header-text {
+	color: #0000ff;
+	font-size: 2.1em;
+	font-weight: bolder;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+}
+
+.header-text {
+	color: white;
+	text-align: center;
+	display: inline-block;
+	font-style: italic;
+	margin-left: 10%;
+	position: fixed;
+}
+
+.metal {
+	background-image: url('../imagens/metal.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.upcase {
+	text-transform: uppercase;
+}
+
+.lowcase {
+	text-transform: lowercase;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+
+.componenteform{
+	padding: 5px;
+}
+
+.panel-heading {
+	font-weight: bolder;
+	font-style: italic;
+}
+
+input[type=file]{
+	width: 120px!important;
+}
+
+input[type="text"] {
+  padding: 10px;
+  transition: border 0.3s;
+}
+
+.col-xs-12{
+	padding: 0 5px 0 5px!important;
+}
+
+.input-group-addon{
+	border: solid 1px!important;
+	border-radius: 5px!important;
+}
+
+.pagination-centered {
+	text-align: center;
+}
+
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.pointer-disabled {
+	pointer-events: none;
+}
+
+/*******************\
+	TABELA
+\*******************/
+.ik-table-col-codigo, .ik-table-col-icons {
+	width: 60px;
+	text-align: center;
+}
+
+td {
+	text-align: justify;
+}
+
+th {
+	text-align: center;
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+	background-image: linear-gradient(to bottom, #5bc0de 0%, #2aabd2 100%);
+}
+
+
+@media only screen and (max-width: 760px) , ( min-device-width : 768px)
+	and (max-device-width: 1024px) {
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr {
+		display: block;
+	}
+
+	/* esconder cabeçalho */
+	thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	tr {
+		border: 1px solid #ccc;
+		text-align: justify;
+	}
+	td {
+		border: none;
+		border-bottom: 1px solid #eee;
+		text-align: justify;
+		position: relative;
+		padding-left: 10px;
+	}
+	td:before {
+		font-weight: bold;
+		padding-right: 20px;
+		font-size: 12px;
+		content: " " attr(data-label) " ";
+	}
+}
+
+/* Smartphones (portrait and landscape) -----------*/ 
+@media only screen and (min-device-width : 320px) and (max-device-width
+	: 480px) {
+	body {
+		padding: 0;
+		margin: 0;
+		width: 320px;
+	}
+}
+
+/* iPads (portrait and landscape) -----------*/ 
+@media only screen and (min-device-width: 768px) and (max-device-width:
+	1024px) {
+	body {
+		width: 495px;
+	}
+}

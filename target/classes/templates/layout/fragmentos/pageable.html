@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt" 
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns:sec="http://www.springframework.org/security/tags">
+<head></head>
+<body>
+	<th:block layout:fragment="pageSelect (url)">
+		<div class="col-xs-5 pull-left" style="margin:-8px 0;">
+			<div class="input-group" style="padding: 0; margin-bottom: -15px; margin-top:-20px; margin-left: -20px;">
+				<select class="form-control pagination" id="pageSizeSelect" th:onchange="'changePageAndSize(\'' + ${url} + '\')'">
+					<option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}" 
+							th:selected="${pageSize} == ${selectedPageSize}"></option>
+				</select>
+			</div>
+		</div>
+		<div class="col-xs-1 hidden-xs" >
+			<button id="btnDownload" class="bg-info">
+				<img alt="Download" src="/layout/imagens/Excel.gif" title="donwload" data-toggle="tooltip" data-placement="bottom">
+			</button>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="pageControl (url)">
+		<div th:if="${lista.totalPages != 1}" class="form-group col-md-11 pagination-centered" style="margin-bottom: -20px; margin-top:-20px;">
+			<ul class="pagination">
+				<li th:class="${lista.number == 0} ? disabled">
+					<a class="pageLink" th:attr="href=@{${url}(pageSize=${selectedPageSize}, page=1, nome=${filtro.getNome()})}">&laquo;</a>
+				</li>
+				<li th:class="${lista.number == 0} ? disabled">
+					<a class="pageLink" th:attr="href=@{${url}(pageSize=${selectedPageSize}, page=${lista.number}, nome=${filtro.getNome()})}">&larr;</a>
+				</li>
+				<li th:class="${lista.number == (page - 1)} ? 'active pointer-disabled'"
+					th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+					<a class="pageLink" th:attr="href=@{${url}(pageSize=${selectedPageSize}, page=${page}, nome=${filtro.getNome()})}" th:text="${page}"></a>
+				</li>
+				<li th:class="${lista.number + 1 ==lista.totalPages} ? disabled">
+					<a class="pageLink" th:attr="href=@{${url}(pageSize=${selectedPageSize}, page=${lista.number + 2}, nome=${filtro.getNome()})}">&rarr;</a>
+				</li>
+				<li th:class="${lista.number + 1 ==lista.totalPages} ? disabled">
+					<a class="pageLink" th:attr="href=@{${url}(pageSize=${selectedPageSize}, page=${lista.totalPages}, nome=${filtro.getNome()})}">&raquo;</a>
+				</li>
+			</ul>
+		</div>
+	
+	</th:block>
+	
+		
+</body>
+</html>

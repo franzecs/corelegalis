@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+.aw-simple-panel{color:#ffffff;text-align:center}
+.aw-simple-panel__message{padding:20px 0; font-weight: bolder;}
+.aw-simple-panel__message.is-error{color:#e70500; font-weight: bolder;}
+.aw-simple-panel__box{padding:20px 20px 5px;border:1px solid #787878;border-radius:2px;background-color:transparent;}
+.aw-simple-panel__footer{padding:10px 0}
+
+form {
+  position: relative;
+  margin: 0 auto;
+}
+
+form input, form span{
+  background-color: rgba(0,0,0,.4)!important;
+  background-repeat: no-repeat;
+  color: #fff!important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.1)!important;
+}
+
+form span{
+  background-color: transparent!important;
+}
